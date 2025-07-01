@@ -1,0 +1,146 @@
+<!-- pages/index/index.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="header-top">
+      <image class="logo" src="/assets/logo.png" mode="aspectFit"></image>
+      <view class="history-btn" bindtap="navigateToHistory">
+        <text class="history-icon">📋</text>
+      </view>
+    </view>
+    <view class="title">高考志愿填报助手</view>
+    <view class="subtitle">AI智能分析，张雪峰风格解答志愿填报难题</view>
+  </view>
+
+  <block wx:if="{{!showResult}}">
+    <view class="question-container">
+      <view class="progress">
+        <text>问题 {{currentQuestionIndex + 1}}/{{questions.length}}</text>
+        <text>{{progressPercent}}%</text>
+      </view>
+      <view class="progress-bar">
+        <view class="progress-inner" style="width: {{progressPercent}}%"></view>
+      </view>
+      
+      <view class="question">
+        <text class="question-text">{{questions[currentQuestionIndex]}}</text>
+        
+        <!-- 省份选择器 -->
+        <block wx:if="{{currentQuestionIndex === 1}}">
+          <picker 
+            class="province-picker" 
+            range="{{provinces}}" 
+            value="{{selectedProvinceIndex}}" 
+            bindchange="handleProvinceChange"
+          >
+            <view class="picker-content">
+              <text wx:if="{{!answers[1]}}">请选择省份</text>
+              <text wx:else>{{answers[1]}}</text>
+            </view>
+          </picker>
+        </block>
+        
+        <!-- 文理科选择器 -->
+        <block wx:elif="{{currentQuestionIndex === 2}}">
+          <picker 
+            class="subject-picker" 
+            range="{{subjects}}" 
+            value="{{selectedSubjectIndex}}" 
+            bindchange="handleSubjectChange"
+          >
+            <view class="picker-content">
+              <text wx:if="{{!answers[2]}}">请选择文理科</text>
+              <text wx:else>{{answers[2]}}</text>
+            </view>
+          </picker>
+        </block>
+        
+        <!-- 学科兴趣多选 -->
+        <block wx:elif="{{currentQuestionIndex === 3}}">
+          <view class="radio-container">
+            <view class="selection-hint">
+              当前选择: <text class="count">{{selectedInterest !== null ? interestSubjects[selectedInterest] : '未选择'}}</text>
+            </view>
+            <radio-group class="radio-group" bindchange="toggleInterest">
+              <label class="radio-item" wx:for="{{interestSubjects}}" wx:key="*this">
+                <radio 
+                  value="{{index}}"
+                  checked="{{selectedInterest === index}}"
+                  data-index="{{index}}"
+                  color="#07C160"
+                />
+                <text class="radio-text">{{item}}</text>
+              </label>
+            </radio-group>
+          </view>
+        </block>
+        
+        <!-- 其他问题的文本输入 -->
+        <block wx:else>
+          <textarea 
+            class="answer-input" 
+            placeholder="请详细描述您的情况，这将帮助我们生成更准确的志愿填报建议..." 
+            value="{{answers[currentQuestionIndex]}}"
+            bindinput="handleInput"
+            auto-height
+            maxlength="-1"
+          ></textarea>
+        </block>
+      </view>
+      
+      <view class="buttons">
+        <button 
+          class="btn prev" 
+          bindtap="prevQuestion" 
+          disabled="{{currentQuestionIndex === 0}}"
+        >
+          <text class="btn-icon">←</text>
+          <text>上一题</text>
+        </button>
+        <button 
+          class="btn next" 
+          bindtap="nextQuestion"
+        >
+          <text>{{currentQuestionIndex === questions.length - 1 ? '生成提示词' : '下一题'}}</text>
+          <text class="btn-icon">{{currentQuestionIndex === questions.length - 1 ? '✓' : '→'}}</text>
+        </button>
+      </view>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="result-container">
+      <view class="result-title">您的志愿填报分析已生成</view>
+      <view class="result-tips">复制以下内容到AI助手（如DeepSeek、腾讯元宝等），获取详细的志愿填报建议</view>
+      
+      <scroll-view class="prompt-box" scroll-y>
+        <text>{{promptText}}</text>
+      </scroll-view>
+      
+      <view class="result-buttons">
+        <button class="btn copy" bindtap="copyPrompt">
+          <text class="btn-icon">📋</text>
+          <text>一键复制</text>
+        </button>
+        <button class="btn history" bindtap="navigateToHistory">
+          <text class="btn-icon">�</text>
+          <text>历史记录</text>
+        </button>
+        <button class="btn restart" bindtap="restartQuestions">
+          <text class="btn-icon">🔄</text>
+          <text>重新开始</text>
+        </button>
+      </view>
+
+    </view>
+  </block>
+
+  <!-- 加载状态指示器 -->
+  <view class="loading-container" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">正在生成分析...</text>
+  </view>
+
+  <view class="footer">
+    <text>© 2025 学途罗盘 - 高考志愿填报助手</text>
+  </view>
+</view>

@@ -1,0 +1,7 @@
+{
+  "desc": "AI提示词生成器的索引规则",
+  "rules": [{
+    "action": "allow",
+    "page": "*"
+  }]
+}

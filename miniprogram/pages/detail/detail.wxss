@@ -1,0 +1,66 @@
+.container {
+  padding: 30rpx;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.header {
+  margin-bottom: 40rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.date {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.summary {
+  background-color: #fff;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+  font-size: 32rpx;
+  color: #333;
+}
+
+.content {
+  background-color: #fff;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+  font-size: 32rpx;
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  max-height: calc(70vh - 120rpx); /* 减去按钮的高度和间距 */
+  margin-bottom: 120rpx; /* 为按钮留出空间 */
+}
+
+.copy-btn {
+  position: fixed;
+  bottom: 40rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #07c160;
+  color: white;
+  padding: 24rpx 64rpx;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  box-shadow: 0 4rpx 16rpx rgba(7, 193, 96, 0.3);
+  transition: all 0.3s ease;
+}
+
+.copy-btn:active {
+  transform: translateX(-50%) scale(0.95);
+  background-color: #06b057;
+}

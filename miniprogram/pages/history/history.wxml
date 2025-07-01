@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="header">
+    <text>我的分析历史</text>
+  </view>
+  
+  <view class="history-list">
+    <block wx:for="{{historyList}}" wx:key="timestamp">
+      <view class="history-item" bindtap="viewHistory" data-index="{{index}}">
+        <view class="item-header">
+          <text>{{item.date}}</text>
+          <text>{{item.time}}</text>
+        </view>
+        <view class="item-content">
+          <text>{{item.summary}}</text>
+        </view>
+      </view>
+    </block>
+    
+    <view wx:if="{{historyList.length === 0}}" class="empty-tip">
+      <text>暂无历史记录</text>
+    </view>
+  </view>
+</view>
